@@ -1,29 +1,42 @@
-const SHEET_USERS = 'Users';
-const SHEET_LEAVE = 'Leave_Balance';
-const SHEET_NOTICES = 'Notices';
-const SHEET_LOGS = 'Login_Logs';
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <?!= include('Styles'); ?>
+</head>
+<body>
+  <div class="card">
+    <h2>Company Portal Login</h2>
+    <input id="email" placeholder="Enter company email">
+    <button onclick="sendOtp()">Send OTP</button>
 
-function doGet(e) {
-  const page = (e && e.parameter && e.parameter.page) || 'login';
-  const allowed = ['login', 'home', 'leave', 'admin_notice', 'admin_leave'];
+    <input id="otp" placeholder="Enter OTP">
+    <button onclick="verifyOtp()">Login</button>
 
-  const view = allowed.includes(page) ? page : 'login';
-  const template = HtmlService.createTemplateFromFile(capitalizePage(view));
-  template.appUrl = ScriptApp.getService().getUrl();
-  return template.evaluate().setTitle('Company Portal');
-}
+    <div id="msg"></div>
+  </div>
 
-function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
-}
+  <?!= include('Scripts'); ?>
+  <script>
+    function sendOtp() {
+      const email = document.getElementById('email').value;
+      google.script.run.withSuccessHandler(res => {
+        document.getElementById('msg').innerText = res.ok ? 'OTP sent' : res.message;
+      }).sendOtp(email);
+    }
 
-function capitalizePage(page) {
-  const map = {
-    login: 'Login',
-    home: 'Home',
-    leave: 'MyLeave',
-    admin_notice: 'AdminNotice',
-    admin_leave: 'AdminLeave'
-  };
-  return map[page] || 'Login';
-}
+    function verifyOtp() {
+      const email = document.getElementById('email').value;
+      const otp = document.getElementById('otp').value;
+      google.script.run.withSuccessHandler(res => {
+        if (res.ok) {
+          localStorage.setItem('sessionToken', res.token);
+          window.location.href = '<?= appUrl ?>?page=home';
+        } else {
+          document.getElementById('msg').innerText = res.message;
+        }
+      }).verifyOtp(email, otp);
+    }
+  </script>
+</body>
+</html>
