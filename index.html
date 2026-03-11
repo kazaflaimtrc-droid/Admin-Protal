@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <title>Team HR Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <div id="login-section">
+      <h2>Team HR Portal</h2>
+      <input type="email" id="emailInput" placeholder="輸入公司 Email" />
+      <button id="loginBtn">Login</button>
+      <p id="loginMsg"></p>
+    </div>
+
+    <div id="main-section" style="display:none;">
+      <div id="userInfo"></div>
+
+      <div id="tabs">
+        <button data-tab="leave">請假申請</button>
+        <button data-tab="myRecords">我的記錄</button>
+        <button data-tab="team" id="teamTab" style="display:none;">Team</button>
+      </div>
+
+      <div id="tab-leave" class="tab">
+        <!-- Leave form -->
+        <h3>請假申請</h3>
+        <select id="leaveType">
+          <option value="Annual">年假</option>
+          <option value="Sick">病假</option>
+          <option value="Comp">補假</option>
+          <option value="Unpaid">無薪</option>
+        </select>
+        <input type="date" id="leaveStart" />
+        <input type="date" id="leaveEnd" />
+        <input type="text" id="leaveReason" placeholder="原因" />
+        <button id="submitLeaveBtn">提交申請</button>
+        <p id="leaveMsg"></p>
+        <h4>最近申請</h4>
+        <table id="myLeaveTable"></table>
+      </div>
+
+      <div id="tab-myRecords" class="tab" style="display:none;">
+        <h3>我的記錄</h3>
+        <div id="mySummary"></div>
+        <table id="myAttendanceTable"></table>
+      </div>
+
+      <div id="tab-team" class="tab" style="display:none;">
+        <h3>Team 管理</h3>
+        <div id="teamPending"></div>
+        <div id="teamAttendance"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
