@@ -3,55 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <title>Team HR Portal</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; }
+    #tabs button { margin-right: 8px; }
+    .tab { margin-top: 16px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 8px; }
+    th, td { border: 1px solid #ccc; padding: 4px 8px; font-size: 13px; }
+    th { background: #f0f0f0; }
+    .badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+    .badge.Pending { background:#ffeb3b; }
+    .badge.Approved { background:#c8e6c9; }
+    .badge.Rejected { background:#ffcdd2; }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <div id="login-section">
-      <h2>Team HR Portal</h2>
-      <input type="email" id="emailInput" placeholder="輸入公司 Email" />
-      <button id="loginBtn">Login</button>
-      <p id="loginMsg"></p>
+  <h2>Team HR Portal</h2>
+
+  <div id="login-section">
+    <input type="email" id="emailInput" placeholder="輸入公司 Email" style="width:260px;" />
+    <button id="loginBtn">Login</button>
+    <span id="loginMsg" style="color:red; margin-left:8px;"></span>
+  </div>
+
+  <div id="main-section" style="display:none;">
+    <p id="userInfo"></p>
+
+    <div id="tabs">
+      <button data-tab="leave">請假申請</button>
+      <button data-tab="myRecords">我的記錄</button>
+      <button data-tab="team" id="teamTab" style="display:none;">Team 管理</button>
     </div>
 
-    <div id="main-section" style="display:none;">
-      <div id="userInfo"></div>
-
-      <div id="tabs">
-        <button data-tab="leave">請假申請</button>
-        <button data-tab="myRecords">我的記錄</button>
-        <button data-tab="team" id="teamTab" style="display:none;">Team</button>
-      </div>
-
-      <div id="tab-leave" class="tab">
-        <!-- Leave form -->
-        <h3>請假申請</h3>
+    <div id="tab-leave" class="tab">
+      <h3>請假申請</h3>
+      <label>類型：
         <select id="leaveType">
           <option value="Annual">年假</option>
           <option value="Sick">病假</option>
           <option value="Comp">補假</option>
           <option value="Unpaid">無薪</option>
         </select>
-        <input type="date" id="leaveStart" />
-        <input type="date" id="leaveEnd" />
-        <input type="text" id="leaveReason" placeholder="原因" />
-        <button id="submitLeaveBtn">提交申請</button>
-        <p id="leaveMsg"></p>
-        <h4>最近申請</h4>
-        <table id="myLeaveTable"></table>
-      </div>
+      </label>
+      <br/>
+      <label>開始日期：<input type="date" id="leaveStart" /></label><br/>
+      <label>結束日期：<input type="date" id="leaveEnd" /></label><br/>
+      <label>原因：<input type="text" id="leaveReason" style="width:300px;" /></label><br/>
+      <button id="submitLeaveBtn">提交申請</button>
+      <span id="leaveMsg" style="margin-left:8px;"></span>
 
-      <div id="tab-myRecords" class="tab" style="display:none;">
-        <h3>我的記錄</h3>
-        <div id="mySummary"></div>
-        <table id="myAttendanceTable"></table>
-      </div>
+      <h4>我最近的申請</h4>
+      <table id="myLeaveTable">
+        <thead>
+          <tr><th>ID</th><th>類型</th><th>起</th><th>止</th><th>天數</th><th>狀態</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
-      <div id="tab-team" class="tab" style="display:none;">
-        <h3>Team 管理</h3>
-        <div id="teamPending"></div>
-        <div id="teamAttendance"></div>
-      </div>
+    <div id="tab-myRecords" class="tab" style="display:none;">
+      <h3>我的記錄</h3>
+      <div id="mySummary"></div>
+    </div>
+
+    <div id="tab-team" class="tab" style="display:none;">
+      <h3>Pending 請假</h3>
+      <table id="pendingTable">
+        <thead>
+          <tr><th>ID</th><th>員工</th><th>類型</th><th>日期</th><th>天數</th><th>原因</th><th>操作</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   </div>
 
