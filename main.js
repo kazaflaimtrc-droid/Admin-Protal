@@ -7,7 +7,7 @@ let currentUser = null;
 async function callApi(action, payload = {}) {
   const res = await fetch(SCRIPT_URL, {
     method: 'POST',
-    // 不設置任何 headers，等 browser 用預設
+    // 唔加 headers，等 browser 自己決定 Content-Type
     body: JSON.stringify({ action, payload })
   });
   return res.json();
